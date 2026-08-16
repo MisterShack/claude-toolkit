@@ -22,15 +22,20 @@ claude --plugin-dir ./plugins/review-kit
 
 ### `review-kit`
 
-Two tools that exist for the same reason: the expensive defects are the ones nobody was looking
+Three tools that exist for the same reason: the expensive defects are the ones nobody was looking
 for, and both of these look in places a test suite cannot.
 
 | Component | Kind | What it does |
 |---|---|---|
 | `/review-kit:plan-review` | skill | Attacks a plan document before any of it is built. Findings are `WRONG` / `UNSTATED` / `UNPROVEN`, each quoting the sentence it disputes, ending in `PROCEED` / `REVISE` / `RETHINK`. |
+| `design-reviewer` | agent | Reviews a UI against the project's **own** written design system — tokens, scale, component rules, voice. Refuses to review without one, because a review with no reference produces adjectives. |
 | `web-accessibility-reviewer` | agent | Drives the running **web** app in a browser and audits the **accessibility tree** — names, keyboard operability, focus on navigation, whether status messages are announced, contrast in both themes, reflow. |
 
-Both are read-only by design. They report; you decide.
+All three are read-only by design. They report; you decide.
+
+The two UI agents are complementary rather than overlapping: the accessibility one asks *can
+people use this*, the design one asks *does this look considered and consistent*. Neither is
+useful without the app running.
 
 The accessibility agent is deliberately scoped to the web — a DOM, a browser accessibility tree
 and CSS media queries. Native mobile and desktop toolkits have their own trees and conventions,
