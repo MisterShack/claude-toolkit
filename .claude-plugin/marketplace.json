@@ -1,0 +1,23 @@
+{
+  "name": "mistershack",
+  "owner": {
+    "name": "David Shack"
+  },
+  "metadata": {
+    "description": "Personal Claude Code plugins — adversarial review tooling that runs before code ships."
+  },
+  "plugins": [
+    {
+      "name": "review-kit",
+      "source": "./plugins/review-kit",
+      "description": "Adversarial review tooling: attack a plan before it is built, and audit a running app's accessibility against the accessibility tree.",
+      "category": "review",
+      "tags": [
+        "review",
+        "planning",
+        "accessibility",
+        "a11y"
+      ]
+    }
+  ]
+}

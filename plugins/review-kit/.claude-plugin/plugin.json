@@ -1,0 +1,11 @@
+{
+  "name": "review-kit",
+  "description": "Adversarial review tooling: attack a plan before it is built, and audit a running app's accessibility against the accessibility tree.",
+  "version": "0.1.0",
+  "author": {
+    "name": "David Shack"
+  },
+  "homepage": "https://github.com/MisterShack/claude-toolkit",
+  "repository": "https://github.com/MisterShack/claude-toolkit",
+  "license": "MIT"
+}
