@@ -28,9 +28,14 @@ for, and both of these look in places a test suite cannot.
 | Component | Kind | What it does |
 |---|---|---|
 | `/review-kit:plan-review` | skill | Attacks a plan document before any of it is built. Findings are `WRONG` / `UNSTATED` / `UNPROVEN`, each quoting the sentence it disputes, ending in `PROCEED` / `REVISE` / `RETHINK`. |
-| `accessibility-reviewer` | agent | Drives the running app in a browser and audits the **accessibility tree** — names, keyboard operability, focus on navigation, whether status messages are announced, contrast in both themes, reflow. |
+| `web-accessibility-reviewer` | agent | Drives the running **web** app in a browser and audits the **accessibility tree** — names, keyboard operability, focus on navigation, whether status messages are announced, contrast in both themes, reflow. |
 
 Both are read-only by design. They report; you decide.
+
+The accessibility agent is deliberately scoped to the web — a DOM, a browser accessibility tree
+and CSS media queries. Native mobile and desktop toolkits have their own trees and conventions,
+and several of its checks are meaningless there, so it says so and stops rather than producing
+findings that do not apply. Other surfaces get their own agents as they come up.
 
 #### Why the accessibility one drives the app
 
@@ -45,6 +50,16 @@ failed to find a field by its label:
 Neither is visible in a screenshot. Neither fails a unit test. Both are obvious the moment you
 read the accessibility tree — which is why the agent insists on the running app and refuses to
 work from source.
+
+## Adding to this
+
+The marketplace holds many plugins; `review-kit` is one. A new tool is either a component inside
+it (another `agents/*.md` or `skills/*/SKILL.md`) or, if it addresses a different surface, a new
+plugin directory plus one entry in `.claude-plugin/marketplace.json`.
+
+Prefer narrow and opinionated over broad and generic. These are useful because they know where to
+look; an agent that tries to cover every platform ends up listing criteria instead of finding
+defects.
 
 ## Origin
 
