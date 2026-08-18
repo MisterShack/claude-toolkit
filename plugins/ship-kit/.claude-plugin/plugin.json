@@ -1,0 +1,11 @@
+{
+  "name": "ship-kit",
+  "description": "Agents whose subject is the deployment rather than the repository: prove a release actually reached production, and find out why an image that works locally does not work there.",
+  "version": "0.1.0",
+  "author": {
+    "name": "David Shack"
+  },
+  "homepage": "https://github.com/MisterShack/claude-toolkit",
+  "repository": "https://github.com/MisterShack/claude-toolkit",
+  "license": "MIT"
+}

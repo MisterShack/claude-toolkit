@@ -4,7 +4,7 @@
     "name": "David Shack"
   },
   "metadata": {
-    "description": "Personal Claude Code plugins — adversarial review tooling that runs before code ships, and stack-specific agents that build what it reviews."
+    "description": "Personal Claude Code plugins — adversarial review tooling that runs before code ships, stack-specific agents that build what it reviews, and deployment agents that check it arrived."
   },
   "plugins": [
     {
@@ -25,7 +25,7 @@
     {
       "name": "build-kit",
       "source": "./plugins/build-kit",
-      "description": "Stack-specific implementation agents that carry their stack's traps: React on the client, Hono and Drizzle on the server.",
+      "description": "Stack-specific implementation agents that carry their stack's traps: React on the client, Hono and Drizzle on the server, Playwright across both.",
       "category": "development",
       "tags": [
         "react",
@@ -33,7 +33,25 @@
         "hono",
         "drizzle",
         "backend",
-        "sqlite"
+        "sqlite",
+        "playwright",
+        "e2e",
+        "testing"
+      ]
+    },
+    {
+      "name": "ship-kit",
+      "source": "./plugins/ship-kit",
+      "description": "Agents whose subject is the deployment rather than the repository: prove a release actually reached production, and find out why an image that works locally does not work there.",
+      "category": "deployment",
+      "tags": [
+        "deploy",
+        "release",
+        "docker",
+        "railway",
+        "verification",
+        "debugging",
+        "infrastructure"
       ]
     }
   ]
