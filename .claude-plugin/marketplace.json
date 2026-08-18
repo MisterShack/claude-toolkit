@@ -4,7 +4,7 @@
     "name": "David Shack"
   },
   "metadata": {
-    "description": "Personal Claude Code plugins — adversarial review tooling that runs before code ships."
+    "description": "Personal Claude Code plugins — adversarial review tooling that runs before code ships, and stack-specific agents that build what it reviews."
   },
   "plugins": [
     {
@@ -17,6 +17,20 @@
         "planning",
         "accessibility",
         "a11y"
+      ]
+    },
+    {
+      "name": "build-kit",
+      "source": "./plugins/build-kit",
+      "description": "Stack-specific implementation agents that carry their stack's traps: React on the client, Hono and Drizzle on the server.",
+      "category": "development",
+      "tags": [
+        "react",
+        "frontend",
+        "hono",
+        "drizzle",
+        "backend",
+        "sqlite"
       ]
     }
   ]

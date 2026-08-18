@@ -1,0 +1,11 @@
+{
+  "name": "build-kit",
+  "description": "Stack-specific implementation agents that carry their stack's traps: React on the client, Hono and Drizzle on the server.",
+  "version": "0.1.0",
+  "author": {
+    "name": "David Shack"
+  },
+  "homepage": "https://github.com/MisterShack/claude-toolkit",
+  "repository": "https://github.com/MisterShack/claude-toolkit",
+  "license": "MIT"
+}
