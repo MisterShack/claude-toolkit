@@ -10,13 +10,16 @@
     {
       "name": "review-kit",
       "source": "./plugins/review-kit",
-      "description": "Adversarial review tooling: attack a plan before it is built, and audit a running app's accessibility against the accessibility tree.",
+      "description": "Adversarial review tooling: attack a plan before it is built, rehearse a migration before it touches live data, and audit a running app against the accessibility tree and its own design system.",
       "category": "review",
       "tags": [
         "review",
         "planning",
         "accessibility",
-        "a11y"
+        "a11y",
+        "design",
+        "migrations",
+        "database"
       ]
     },
     {

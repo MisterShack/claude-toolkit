@@ -23,16 +23,17 @@ claude --plugin-dir ./plugins/review-kit --plugin-dir ./plugins/build-kit
 
 ### `review-kit`
 
-Three tools that exist for the same reason: the expensive defects are the ones nobody was looking
-for, and both of these look in places a test suite cannot.
+Four tools that exist for the same reason: the expensive defects are the ones nobody was looking
+for, and each of these looks somewhere a test suite cannot.
 
 | Component | Kind | What it does |
 |---|---|---|
 | `/review-kit:plan-review` | skill | Attacks a plan document before any of it is built. Findings are `WRONG` / `UNSTATED` / `UNPROVEN`, each quoting the sentence it disputes, ending in `PROCEED` / `REVISE` / `RETHINK`. |
 | `design-reviewer` | agent | Reviews a UI against the project's **own** written design system — tokens, scale, component rules, voice. Refuses to review without one, because a review with no reference produces adjectives. |
 | `web-accessibility-reviewer` | agent | Drives the running **web** app in a browser and audits the **accessibility tree** — names, keyboard operability, focus on navigation, whether status messages are announced, contrast in both themes, reflow. |
+| `migration-rehearser` | agent | Builds a database at the *previous* migration, seeds realistic rows, runs the migration forward, and reports what breaks, what is silently lost, and what the database looks like if it dies halfway. |
 
-All three are read-only by design. They report; you decide.
+All four are read-only by design. They report; you decide.
 
 The two UI agents are complementary rather than overlapping: the accessibility one asks *can
 people use this*, the design one asks *does this look considered and consistent*. Neither is
