@@ -1,0 +1,11 @@
+{
+  "name": "support-kit",
+  "description": "Two agents for the work that starts after a product ships: turn an inbound support ticket into either a resolution the CSR can relay or a directed brief for a developer, and keep the internal documentation and FAQ that both of them lean on actually true.",
+  "version": "0.1.0",
+  "author": {
+    "name": "David Shack"
+  },
+  "homepage": "https://github.com/MisterShack/claude-toolkit",
+  "repository": "https://github.com/MisterShack/claude-toolkit",
+  "license": "MIT"
+}

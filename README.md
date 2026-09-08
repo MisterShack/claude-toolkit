@@ -11,6 +11,7 @@ and the plugin source.
 /plugin install build-kit@mistershack
 /plugin install ship-kit@mistershack
 /plugin install business-kit@mistershack
+/plugin install support-kit@mistershack
 ```
 
 Then `/reload-plugins` if the install summary asks for it. A plugin installed after a session began
@@ -24,7 +25,7 @@ which every agent in the plugin reads before doing anything else.
 To work on it locally without installing:
 
 ```sh
-claude --plugin-dir ./plugins/review-kit --plugin-dir ./plugins/build-kit --plugin-dir ./plugins/ship-kit --plugin-dir ./plugins/business-kit
+claude --plugin-dir ./plugins/review-kit --plugin-dir ./plugins/build-kit --plugin-dir ./plugins/ship-kit --plugin-dir ./plugins/business-kit --plugin-dir ./plugins/support-kit
 ```
 
 ## What's in it
@@ -200,6 +201,43 @@ database-vs-infra would have missed entirely. The generalisable lesson is in eac
 routing by *instrument* (what kind of check this actually requires) rather than by *topic* is what
 catches the finding nobody was looking for.
 
+### `support-kit`
+
+Two agents whose subject is **the work that starts after the product ships** — a customer hits a
+problem, and the person who fields it is not a developer. That is the reason this is a separate
+plugin: everything in the other three assumes an engineer is driving, and this one assumes a CSR
+is.
+
+| Component | Kind | What it does |
+|---|---|---|
+| `support-responder` | agent | Takes an inbound ticket, reproduces it read-only against the running app, the logs for that user and window, and the deploys around when it started — then returns either a plain-language resolution the CSR can relay to the customer, or a directed brief for a developer: severity and scope, repro steps, the suspected file or area, the log lines, and what was ruled out. Never edits code, never touches production data, never contacts the customer. |
+| `docs-maintainer` | agent | Writes and updates the internal documentation both roles lean on — niche concepts that only live in someone's head, runbooks for how to actually run a script, and the support FAQ. Runs the command or reads the code before writing the claim down. |
+
+They share a subject: the FAQ that `support-responder` keeps proposing entries to is the FAQ
+`docs-maintainer` writes and owns. Neither needs its own onboarding — if `business-kit` is
+installed and `/business-kit:onboard` has been run, both read `.claude/team/PROJECT.md` for the
+stack, hosting and data context; otherwise they ask the few things they need inline.
+
+#### Why the support agent is a triage step, not an answer bot
+
+The goal is to change what a CSR does with a hard ticket from "I need to talk to the dev team" to
+one of two better outcomes: resolve it herself with an answer she can trust, or hand engineering a
+brief they can act on without re-interviewing anyone. The failure modes it exists to stop are the
+everyday ones — a "it's broken" ticket with no account, timestamp or platform that costs a
+developer an hour to reconstruct; a ticket that was never a bug because the feature works as
+designed or the customer is on the wrong tier; a one-off treated as an outage or an outage treated
+as a one-off; and the same question answered from scratch for the fifth time because the first four
+answers went into a reply and nowhere else.
+
+#### Why documentation gets a writer as well as an auditor
+
+`review-kit`'s `doc-drift-auditor` finds documentation claims that are **false** and, by design,
+never edits them — the value is the second pair of eyes, and rewriting the sentence removes it.
+That leaves the other half unowned: capturing the concept that is only in one person's head,
+writing the runbook for the script everyone runs and nobody has documented, and keeping the FAQ
+current. `docs-maintainer` is that half. The two are complementary: one certifies, the other
+writes, and a document its own author wrote is not one its own author should certify.
+
 ## Adding to this
 
 The marketplace holds many plugins; `review-kit` is one. A new tool is either a component inside
@@ -209,6 +247,16 @@ plugin directory plus one entry in `.claude-plugin/marketplace.json`.
 Prefer narrow and opinionated over broad and generic. These are useful because they know where to
 look; an agent that tries to cover every platform ends up listing criteria instead of finding
 defects.
+
+### Shared lessons are restated, not centralised
+
+A few lessons legitimately belong to several agents at once — the migration generator that reads a
+rename as a drop-and-add, an in-memory rate limiter that does not survive a second instance, a
+healthcheck shadowed by a single-page-app fallback route. Each agent that needs one carries its
+own copy, phrased for that seat's angle, because every agent is meant to work when it is the only
+one installed and cannot rely on reading a sibling's file. The cost is that changing one of these
+means changing it in a few places: when you edit a shared lesson, grep the other plugins for it
+and keep them in step.
 
 ## Origin
 
