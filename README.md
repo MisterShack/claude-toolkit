@@ -10,15 +10,21 @@ and the plugin source.
 /plugin install review-kit@mistershack
 /plugin install build-kit@mistershack
 /plugin install ship-kit@mistershack
+/plugin install business-kit@mistershack
 ```
 
 Then `/reload-plugins` if the install summary asks for it. A plugin installed after a session began
 is not visible to that session — if the agents do not appear, that is why.
 
+**`business-kit` needs one extra step.** Its agents are configured per project rather than tuned to
+one stack, so run `/business-kit:onboard` once after installing it into a project — it asks a few
+questions (hosting, domains, app type, brand, database, vendors) and writes `.claude/team/PROJECT.md`,
+which every agent in the plugin reads before doing anything else.
+
 To work on it locally without installing:
 
 ```sh
-claude --plugin-dir ./plugins/review-kit --plugin-dir ./plugins/build-kit --plugin-dir ./plugins/ship-kit
+claude --plugin-dir ./plugins/review-kit --plugin-dir ./plugins/build-kit --plugin-dir ./plugins/ship-kit --plugin-dir ./plugins/business-kit
 ```
 
 ## What's in it
@@ -150,6 +156,49 @@ The shared property is that the deploy log reports the symptom and never the cau
 cause is usually a difference between two environments rather than a defect in either. Hence the two
 hard rules these agents keep: verify the **artifact** rather than the dashboard, and reproduce
 **locally in the real image** before changing anything that is running.
+
+### `business-kit`
+
+A virtual team of eight business-facing reviewers, configured to a specific project rather than
+hardcoded to one — the thing that makes this different from the other three plugins.
+
+| Component | Kind | What it does |
+|---|---|---|
+| `/business-kit:onboard` | skill | Interactive setup. Asks about hosting, domains, app type, brand, database and vendors, and writes `.claude/team/PROJECT.md` — the file every other component in this plugin reads first. Re-run it whenever those answers change. |
+| `finance-officer` | agent | Recomputes unit economics and pricing rather than trusting the table someone wrote. Read-only — reports numbers, never sets a price. |
+| `market-strategist` | agent | Positioning, naming and competitive reality, read as a stranger and as a competitor would. Read-only on brand documents. |
+| `platform-engineer` | agent | Hosting, database, storage, backups-and-the-restore-drill, and the infra bill — for whatever stack `PROJECT.md` says this project actually runs. |
+| `privacy-counsel` | agent | Traces real user data through every store and vendor and produces a directed brief for real counsel. Never gives legal advice, never says "compliant." |
+| `database-reviewer` | agent | Schema, query correctness, migration safety and deletion semantics, on a real database with realistic rows. |
+| `lead-engineer` | agent | Architecture, sequencing and day estimates — and verifies any "this already exists / is portable" claim against the actual file before an estimate leans on it. |
+| `security-reviewer` | agent | Threat-models auth, webhooks, uploads and the money path as a concrete attack narrative. Read-only — reports, never fixes. |
+| `test-strategist` | agent | Writes the verbose end-to-end spec first and derives fast unit tests from what it proved, rather than the reverse. |
+
+All eight are read-only except `test-strategist`, which writes tests, and `lead-engineer`, which
+writes code but never pushes.
+
+#### Why this one needs onboarding and the others don't
+
+`build-kit`, `review-kit` and `ship-kit` carry stack-specific traps (a particular ORM's migration
+behaviour, a particular framework's accessible-name computation) that are true regardless of which
+project they run in. Business review is different: the same finance-officer needs the actual
+pricing and cost base, the same privacy-counsel needs to know what kind of personal data is actually
+in play, the same platform-engineer needs the real hosting stack — none of that is guessable from
+the code alone, and hardcoding one project's answers into the agent (the shape these were originally
+built in) makes them wrong everywhere else.
+
+`/business-kit:onboard` exists to ask once and let every agent in the plugin read the answer,
+instead of each one asking mid-review or silently assuming a stack.
+
+#### Why they're a team rather than one generalist agent
+
+Two of these were added after a review turned up findings with no seat accountable for them at all:
+an app whose entire payload was other people's personal data, reviewed with zero mentions of
+consent or retention anywhere in the founding documents; and a security review where none of the
+four worst findings were a database or infrastructure concern, which a narrower "reviewer" split by
+database-vs-infra would have missed entirely. The generalisable lesson is in each agent's own file —
+routing by *instrument* (what kind of check this actually requires) rather than by *topic* is what
+catches the finding nobody was looking for.
 
 ## Adding to this
 

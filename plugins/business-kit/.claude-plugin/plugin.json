@@ -1,0 +1,11 @@
+{
+  "name": "business-kit",
+  "description": "A virtual team of business-facing reviewers — finance, brand/positioning, infrastructure, privacy/legal, data, architecture, security and testing strategy — each configured to a specific project by an interactive onboarding skill instead of hardcoded to one stack.",
+  "version": "0.1.0",
+  "author": {
+    "name": "David Shack"
+  },
+  "homepage": "https://github.com/MisterShack/claude-toolkit",
+  "repository": "https://github.com/MisterShack/claude-toolkit",
+  "license": "MIT"
+}

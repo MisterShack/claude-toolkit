@@ -53,6 +53,24 @@
         "debugging",
         "infrastructure"
       ]
+    },
+    {
+      "name": "business-kit",
+      "source": "./plugins/business-kit",
+      "description": "A virtual team of business-facing reviewers — finance, brand/positioning, infrastructure, privacy/legal, data, architecture, security and testing strategy — configured to a specific project by an interactive onboarding skill instead of hardcoded to one stack.",
+      "category": "business",
+      "tags": [
+        "finance",
+        "pricing",
+        "brand",
+        "marketing",
+        "privacy",
+        "legal",
+        "security",
+        "database",
+        "architecture",
+        "onboarding"
+      ]
     }
   ]
 }
