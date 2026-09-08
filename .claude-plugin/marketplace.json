@@ -4,7 +4,7 @@
     "name": "David Shack"
   },
   "metadata": {
-    "description": "Personal Claude Code plugins — adversarial review tooling that runs before code ships, stack-specific agents that build what it reviews, and deployment agents that check it arrived."
+    "description": "Personal Claude Code plugins — adversarial review tooling that runs before code ships, stack-specific agents that build what it reviews, deployment agents that check it arrived, a project-configured business review team, and support agents for after it ships."
   },
   "plugins": [
     {
@@ -70,6 +70,23 @@
         "database",
         "architecture",
         "onboarding"
+      ]
+    },
+    {
+      "name": "support-kit",
+      "source": "./plugins/support-kit",
+      "description": "The work that starts after a product ships: turn an inbound support ticket into a resolution the CSR can relay or a directed brief for a developer, and keep the internal docs and FAQ both of them lean on actually true.",
+      "category": "support",
+      "tags": [
+        "support",
+        "customer-support",
+        "tickets",
+        "triage",
+        "debugging",
+        "documentation",
+        "runbooks",
+        "faq",
+        "knowledge-base"
       ]
     }
   ]
